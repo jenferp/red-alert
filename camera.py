@@ -1,4 +1,5 @@
 import cv2
+import os
 
 # Opening the camera code from https://subscription.packtpub.com/book/application_development/9781785283932/3/ch03lvl1sec28/accessing-the-webcam
 # Likely modify this? https://docs.opencv.org/master/db/d28/tutorial_cascade_classifier.html
@@ -6,7 +7,7 @@ import cv2
     # https://www.pyimagesearch.com/2017/09/11/object-detection-with-deep-learning-and-opencv/
 
 cap = cv2.VideoCapture(0)
-
+path = "\images"
 # Check if the webcam is opened correctly
 if not cap.isOpened():
     raise IOError("Cannot open webcam")
@@ -21,9 +22,10 @@ while True:
     # Add a function here that takes in an input of whatever "frame" is 
 
     c = cv2.waitKey(1)
+
     # If the user presses "esc", close the video window.
     if c == 27:
-        # cv2.imwrite("frame%d.jpg" % 2, frame)     # Code for saving the last frame
+        cv2.imwrite("./images/frame%d.jpg" % 2, frame)     # Code for saving the frame when you press esc, saves to the current direction you are in
         print(frame)
         print(type(frame))
         break
