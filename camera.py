@@ -7,7 +7,7 @@ import os
     # https://www.pyimagesearch.com/2017/09/11/object-detection-with-deep-learning-and-opencv/
 
 cap = cv2.VideoCapture(0)
-path = "\images"
+path = "\webcam-images"
 # Check if the webcam is opened correctly
 if not cap.isOpened():
     raise IOError("Cannot open webcam")

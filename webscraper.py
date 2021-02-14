@@ -6,7 +6,7 @@ import urllib.request
 import time
 
 PATH = '/Users/jenniferpark/Desktop/chromedriver'
-save_folder = 'Training Images'
+save_folder = 'train-images'
 
 def main():
     if not os.path.exists(save_folder):
