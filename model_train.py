@@ -19,21 +19,21 @@ import matplotlib.pyplot as plt
 import numpy as np
 import argparse
 import os
-#list of images in directory
-imagepaths = list(paths.list_images('./train_images'))#need the correct pathname this is just a placeholder
+# list of images in directory
+imagepaths = list(paths.list_images('./train_images'))# need the correct pathname this is just a placeholder
 data = []
 labels = []
 
 for imagepath in imagepaths:
-    label = imagepath.split(os.path.sep)[-2] #extract class label from filename
-    #loads each image in imagepaths and preprocesses the image
-    image = load_img(imagepath, target_size(224,224))
+    label = imagepath.split(os.path.sep)[-2] # extract class label from filename
+    # loads each image in imagepaths and preprocesses the image
+    image = load_img(imagepath, target_size=None)
     image = img_to_array(image)
     image = preprocess_input(image)
-    #update the data and labels lists
+    # update the data and labels lists
     data.append(image)
     labels.append(label)
-#convert data and labels into numpy arrays
+# convert data and labels into numpy arrays
 data = np.array(data, dtype="float32")
 labels = np.array(labels)
 
@@ -44,7 +44,7 @@ labels = to_categorical(labels)
 
 # partition the data into training and testing splits using 80% of
 # the data for training and the remaining 20% for testing
-(trainX, testX, trainY, testY) = train_test_split(data, labels,test_size=0.20, stratify=labels, random_state=42)
+(trainX, testX, trainY, testY) = train_test_split(data, labels, test_size=0.20, stratify=labels, random_state=42)
 
 # construct the training image generator for data augmentation
 aug = ImageDataGenerator(
