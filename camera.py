@@ -1,6 +1,7 @@
 import cv2
 import os
 
+# Obsolete code?
 # Opening the camera code from https://subscription.packtpub.com/book/application_development/9781785283932/3/ch03lvl1sec28/accessing-the-webcam
 # Likely modify this? https://docs.opencv.org/master/db/d28/tutorial_cascade_classifier.html
 # May be a worthwhile read for object detection with deep learning (specifically the dnn module):
