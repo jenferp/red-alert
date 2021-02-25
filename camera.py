@@ -26,7 +26,7 @@ while True:
 
     # If the user presses "esc", close the video window.
     if c == 27:
-        cv2.imwrite("./images/frame%d.jpg" % 2, frame)     # Code for saving the frame when you press esc, saves to the current direction you are in
+        # cv2.imwrite("./images/frame%d.jpg" % 2, frame)     # Code for saving the frame when you press esc, saves to the current direction you are in
         print(frame)
         print(type(frame))
         break
