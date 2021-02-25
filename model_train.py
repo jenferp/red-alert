@@ -20,7 +20,7 @@ import numpy as np
 import argparse
 import os
 #list of images in directory
-imagepaths = list(paths.list_images('Blood_noblood/'))#need the correct pathname this is just a placeholder
+imagepaths = list(paths.list_images('./train_images'))#need the correct pathname this is just a placeholder
 data = []
 labels = []
 
