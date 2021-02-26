@@ -19,8 +19,14 @@ import matplotlib.pyplot as plt
 import numpy as np
 import argparse
 import os
+
 # list of images in directory
 imagepaths = list(paths.list_images('./train_images'))# need the correct pathname this is just a placeholder
+
+
+# list of images paths in the directory (subdirs don't matter)
+imagepaths = list(paths.list_images('./train_images'))
+print(imagepaths[0]) # check path of one element
 data = []
 labels = []
 
@@ -32,6 +38,18 @@ for imagepath in imagepaths:
     image = preprocess_input(image)
     # update the data and labels lists
     data.append(image)
+    image = load_img(imagepath, target_size=(224,224))
+    image = img_to_array(image)
+    image = preprocess_input(image)
+    print(type(image)) # 3D list so we must flatten to 1D list
+    image_1d =[]
+    for i in image:
+        for j in i:
+            for k in j:
+                image_1d.append(k)
+
+    # update the data and labels lists
+    data.append(image_1d) # tensors are not the same size/shape so they can't be passed into neural network
     labels.append(label)
 # convert data and labels into numpy arrays
 data = np.array(data, dtype="float32")
@@ -56,8 +74,7 @@ aug = ImageDataGenerator(
     horizontal_flip=True,
     fill_mode="nearest")
 
-# initialize the initial learning rate, number of epochs to train for,
-# and batch size
+# initialize the initial learning rate, number of epochs to train for, and batch size
 INIT_LR = 1e-4
 EPOCHS = 30
 BS = 32
