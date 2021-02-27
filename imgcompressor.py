@@ -8,14 +8,14 @@ import matplotlib.pyplot as plt
 def compress_images():
 
     # create new directory for compressed images
-    new_path = './compressed_train_images'
+    new_path = './compressed_train_images_hands'
     if not os.path.exists(new_path):
         os.mkdir(new_path)
 
     # To extract non-compressed images
-    path = 'train_images'      # directory path
+    path = 'train_images_hands'      # directory path
     paths = os.listdir(path)   # subdirectory paths
-    # print(paths)              # <class 'list'>: ['.DS_Store', 'blood', 'non_blood']
+    print(paths)              # <class 'list'>: ['.DS_Store', 'blood', 'non_blood']
     for sub in paths[1:]:
 
         # create new sub-directories for blood and non_blood inside new_path
@@ -25,7 +25,9 @@ def compress_images():
 
         # get image names
         sub_path = '{}/{}'.format(path, sub)
-        images = os.listdir(sub_path)
+        print(sub_path)
+        files = os.listdir(sub_path)
+        images = [file for file in files if file.endswith('jpg')]
         print(images[0])
 
         for image in images:
