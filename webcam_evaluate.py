@@ -13,8 +13,9 @@ import os
 # define a helper function to detected face
 def detect_and_predict_blood(frame, bloodNet, check):
     # This function takes in an input of the frame, the model, and a "check" variable for debugging purposes
+    # You can remove this check parameter without breaking the code, it was for helping me discover what each variable was easily
 
-    faces = []
+    detection_list = []
     preds = []
 
     frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
@@ -22,20 +23,22 @@ def detect_and_predict_blood(frame, bloodNet, check):
     frame = img_to_array(frame)
     frame = preprocess_input(frame)
 
-    faces.append(frame)
+    detection_list.append(frame)
 
     if check == True:
-        print("Faces before turning into np.array:")
-        #print(type(faces))
-        #print(faces)
-    faces = np.array(faces, dtype="float32")
-    preds = bloodNet.predict(faces, batch_size=32) # DV: bloodNet should be our model to detect blood in a frame
+        print("detection_list before turning into np.array:")
+        #print(type(detection_list))
+        #print(detection_list)
+    # Create a numpy array to apply the model, in case that we have multiple things (subject to change depending on if we change the input)
+    detection_list = np.array(detection_list, dtype="float32")
+    preds = bloodNet.predict(detection_list, batch_size=32) # DV: bloodNet should be our model to detect blood in a frame
         
-    # Return a predictor tuple on whether there is blood or no blood in the frame
+    # Return an array on whether there is blood or no blood in the frame:
+    # Example: array([[0.00736171 0.99263835]], dtype="float32"). When you access this value, you'll get [[0.00736171 0.99263835]]
     return preds
 
 # Load the blood detector model from disk
-bloodNet = load_model(r'C:\Users\Dylan Vu\Visual Studio Code Projects\Projects\red-alert\blood_noblood_classifier.model') # DV: Change the path to our model
+bloodNet = load_model('./blood_noblood_classifier.model') # DV: Change the path to our model
 
 # Initialize the video stream and allow the camera sensor to warm up
 vs = VideoStream(src=0).start()
@@ -73,7 +76,7 @@ while True:
     # If the q is pressed, break from the loop
     if key == ord("q"):
         # DV: Check the last frame
-        # Debug stuff
+        # Debug/discovery stuff
         # print("Q was pressed")
         # preds = detect_and_predict_blood(frame, bloodNet, True)
         # print("Print preds")
