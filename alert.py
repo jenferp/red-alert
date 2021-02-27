@@ -18,5 +18,5 @@ def email_alert(subject, body, to):
 
     server.quit()
 
-if __name__ == '__main__':
-    email_alert("red alert test", "some one is dyinggggg help", "9168376779@messaging.sprintpcs.com")
+# if __name__ == '__main__':
+#     email_alert("red alert test", "some one is dyinggggg help", "9168376779@messaging.sprintpcs.com")

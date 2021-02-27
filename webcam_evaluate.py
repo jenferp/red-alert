@@ -9,6 +9,7 @@ import imutils
 import time
 import cv2
 import os
+from alert import email_alert
 
 # define a helper function to detected face
 def detect_and_predict_blood(frame, bloodNet, check):
@@ -40,6 +41,9 @@ def detect_and_predict_blood(frame, bloodNet, check):
 # Load the blood detector model from disk
 bloodNet = load_model('./blood_noblood_classifier.model') # DV: Change the path to our model
 
+alert_sent = False
+blood_counter = 0
+
 # Initialize the video stream and allow the camera sensor to warm up
 vs = VideoStream(src=0).start()
 time.sleep(2.0)
@@ -64,6 +68,9 @@ while True:
     
     # Include the probability in the label
     label = "{}: {:.2f}%".format(label, max(blood, noblood) * 100)
+    if alert_sent is True:
+        label = "Alert has been sent! Please hold on for help!"
+        color = (0, 0, 255)
     
     # Display the label on the frame
     cv2.putText(frame, label, (20, 20),
@@ -73,6 +80,19 @@ while True:
     cv2.imshow("Frame", frame)
     key = cv2.waitKey(1) & 0xFF
     
+    # If blood is detected and an alert has not been sent, send an alert only once after 120 frames has passed in a row
+    if blood > noblood and alert_sent is False:
+        blood_counter = blood_counter + 1
+        # If the blood counts up for 30 frames, send the alert only one time
+        # This is approximately 15 second
+        if blood_counter > 30:
+            #email_alert("red alert test", "some one is dyinggggg help", "9168376779@messaging.sprintpcs.com")
+            alert_sent = True
+    # Else, reset the counter
+    elif noblood < blood and alert_sent is False:
+        blood_counter = 0
+
+
     # If the q is pressed, break from the loop
     if key == ord("q"):
         # DV: Check the last frame
