@@ -80,13 +80,13 @@ while True:
     cv2.imshow("Frame", frame)
     key = cv2.waitKey(1) & 0xFF
     
-    # If blood is detected and an alert has not been sent, send an alert only once after 120 frames has passed in a row
+    # If blood is detected and an alert has not been sent, send an alert only once after a certain number of frames have passed in a row
     if blood > noblood and alert_sent is False:
         blood_counter = blood_counter + 1
-        # If the blood counts up for 30 frames, send the alert only one time
-        # This is approximately 15 second
-        if blood_counter > 30:
-            #email_alert("red alert test", "some one is dyinggggg help", "9168376779@messaging.sprintpcs.com")
+        # If the blood counts up for a certain amount of frames, send the alert only one time
+        # 30 frames is approximately 2 seconds?
+        if blood_counter > 30:  # This is the number of frames
+            email_alert("red alert test", "some one is dyinggggg help", "9168376779@messaging.sprintpcs.com")
             alert_sent = True
     # Else, reset the counter
     elif noblood < blood and alert_sent is False:
