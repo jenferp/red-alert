@@ -91,6 +91,10 @@ while True:
     # Else, reset the counter
     elif noblood < blood and alert_sent is False:
         blood_counter = 0
+    
+    if key == ord("w"):
+        alert_sent = False
+        blood_counter = 0
 
 
     # If the q is pressed, break from the loop
