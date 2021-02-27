@@ -11,6 +11,10 @@ def download_images(n_images):
     # Inputs must be a dictionary of lists of keywords as strings and the desired integer number of images per class.
     # Googles specified urls and downloads the resulting images into a subdirectory named after the key (class name)
     # inside the 'train-images' directory.
+    data = {'Blood': 'https://www.google.com/search?q=bloody%20hands&tbm=isch&tbs=rimg:CTYdKDwBwpXlYZk2w-UEFods' \
+                     '&rlz=1C1MSNA_enUS600US600&hl=en-US&sa=X&ved=0CAIQrnZqFwoTCJiJvrLUiO8CFQAAAAAdAAAAABAI&biw' \
+                     '=1730&bih=852', 'No_blood':''}
+
 
     # run headless browser in incognito mode
     path = './chromedriver'
@@ -21,37 +25,39 @@ def download_images(n_images):
     driver = webdriver.Chrome(path, options=options)
 
     # Make a directory for training images inside cwd if the path does not exist already
-    folder = 'train_images_hands'
+    folder = 'train_images_hands2'
     if not os.path.exists(folder):
         os.mkdir(folder)
 
+    for key in data:
+
         # Make a subdirectory for each key if the path does not exist already
-    subfolder = folder + '/' + 'blood'
-    if not os.path.exists(subfolder):
-        os.mkdir(subfolder)
+        subfolder = folder + '/' + '{}'.format(key)
+        if not os.path.exists(subfolder):
+            os.mkdir(subfolder)
 
-    search_url = 'https://www.google.com/search?q=bloody%20hands&tbm=isch&tbs=rimg:CTYdKDwBwpXlYZk2w-UEFods' \
-                 '&rlz=1C1MSNA_enUS600US600&hl=en-US&sa=X&ved=0CAIQrnZqFwoTCJiJvrLUiO8CFQAAAAAdAAAAABAI&biw' \
-                 '=1730&bih=852'
-    driver.get(search_url)
+        # search each url and store results in its respective subfolder
+        for search_url in data[key]:
+            print(search_url)
+            driver.get(search_url)
 
-    # Scroll 3 times
-    count = 0
-    for i in range(20):
-        driver.execute_script("scrollBy(" + str(count) + ",+1000);")
-        count += 1000
-        time.sleep(0.5)
+            # Scroll 3 times
+            count = 0
+            for i in range(20):
+                driver.execute_script("scrollBy(" + str(count) + ",+1000);")
+                count += 1000
+                time.sleep(0.5)
 
-        # Find the element (image) in the page by id and tag name
-        islmp = driver.find_element_by_id('islmp')
-        img = islmp.find_elements_by_tag_name('img')
+                # Find the element (image) in the page by id and tag name
+                islmp = driver.find_element_by_id('islmp')
+                img = islmp.find_elements_by_tag_name('img')
 
-    # Get n images from the page and download them as jpg into the subdirectory
-    for img, img_pic in enumerate(img):
-        if img < n_images:
-            src = img_pic.get_attribute('src')
-            if src is not None:
-                urllib.request.urlretrieve(src, os.path.join(subfolder, 'bloody_hands' + str(img) + '.jpg'))
+            # Get n images from the page and download them as jpg into the subdirectory
+            for img, img_pic in enumerate(img):
+                if img < n_images:
+                    src = img_pic.get_attribute('src')
+                    if src is not None:
+                        urllib.request.urlretrieve(src, os.path.join(subfolder, key + '_hands' + str(img) + '.jpg'))
 
     # Quit the driver instance
     driver.quit()
