@@ -15,8 +15,8 @@ def download_images(n_images):
     # run headless browser in incognito mode
     path = './chromedriver'
     options = Options()
-    options.add_argument('--headless')
-    options.add_argument('--disable-gpu')
+    # options.add_argument('--headless')
+    # options.add_argument('--disable-gpu')
     options.add_argument('--incognito')
     driver = webdriver.Chrome(path, options=options)
 
@@ -37,21 +37,21 @@ def download_images(n_images):
 
     # Scroll 3 times
     count = 0
-    for i in range(10):
+    for i in range(20):
         driver.execute_script("scrollBy(" + str(count) + ",+1000);")
         count += 1000
-        time.sleep(1)
+        time.sleep(0.5)
 
         # Find the element (image) in the page by id and tag name
         islmp = driver.find_element_by_id('islmp')
         img = islmp.find_elements_by_tag_name('img')
 
-        # Get n images from the page and download them as jpg into the subdirectory
-        for j, i in enumerate(img):
-            if j < n_images:
-                src = i.get_attribute('src')
-                if src is not None:
-                    urllib.request.urlretrieve(src, os.path.join(subfolder, 'bloody_hands' + str(j) + '.jpg'))
+    # Get n images from the page and download them as jpg into the subdirectory
+    for img, img_pic in enumerate(img):
+        if img < n_images:
+            src = img_pic.get_attribute('src')
+            if src is not None:
+                urllib.request.urlretrieve(src, os.path.join(subfolder, 'bloody_hands' + str(img) + '.jpg'))
 
     # Quit the driver instance
     driver.quit()
